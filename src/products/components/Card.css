@@ -1,0 +1,22 @@
+#card_card {
+  min-height: 300px;
+}
+
+#slashed {
+  color: rgb(202, 2, 2);
+  font-size: 10pt;
+  text-decoration: line-through;
+}
+
+#item_name {
+  text-align: left;
+}
+
+#card_deets {
+  padding-left: 15px;
+}
+
+#card_card:hover {
+  transform: translateY(-5px);
+}
+

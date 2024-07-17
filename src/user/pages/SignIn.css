@@ -1,0 +1,163 @@
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+footer {
+  margin-top: 5%;
+  padding-top: 0px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  height: 410px;
+}
+
+.h-100 {
+  width: 1px;
+  --bs-bg-opacity: 0.1;
+}
+
+.w-100 {
+  height: 1px;
+  --bs-bg-opacity: 0.1;
+}
+
+.sign-in-form {
+  margin-top: 15%;
+  margin-left: 100px;
+  padding-left: 2%;
+}
+
+.sign-in-title {
+  font-size: 35pt;
+  font-weight: 700;
+  color: #2b2828;
+  margin-bottom: 20px;
+}
+
+#email_input,
+#password_input {
+  margin-bottom: 2px;
+}
+
+#email_input input,
+#password_input input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#input_submit,
+#input_signUp {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#input_submit:hover,
+#input_signUp:hover {
+  background-color: #0056b3;
+}
+
+.forgot-password {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.new-customer-section {
+  margin-top: 6%;
+  margin-left: 8%;
+}
+
+.new-customer-box {
+  width: 100%;
+  height: 430px;
+  background-color: #eee;
+  border-radius: 8px;
+}
+
+.new-customer-title {
+  text-align: center;
+  font-size: 24pt;
+  font-weight: 600;
+  color: #2b2828;
+  margin-top: 30px;
+  font-family: "Jost", sans-serif;
+}
+
+.new-customer-content {
+  margin-left: 10px;
+}
+
+.new-customer-text {
+  margin-left: 30px;
+  margin-bottom: 10px;
+  font-family: "Jost", sans-serif;
+  margin-top: 20px;
+}
+
+#new_list {
+  padding-left: 40px;
+}
+
+#new_list li {
+  margin-bottom: 10px;
+}
+
+#acc {
+  width: 80%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#acc:hover {
+  background-color: #0056b3;
+}
+
+#input_submit {
+  width: 90%;
+  padding-left: 10px;
+}
+
+#center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+}
+
+.txt2 {
+  /* font-family: Poppins-Regular; */
+  font-size: 16px;
+  line-height: 1.5;
+  color: #666666;
+  text-decoration: none;
+  background-color: transparent;
+  padding-top: 1%;
+  transition: all 0.4s;
+}
+
+.txt2:hover{
+  color: #0056b3;
+  font-size: 18px;
+}
+/* 
+#copyright {
+  color: #fff;
+  margin-left: 4%;
+  font-size: 10pt;
+  padding-left: 20px;
+  margin-top: 0px;
+} */
