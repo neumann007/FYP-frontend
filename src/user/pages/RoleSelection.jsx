@@ -1,5 +1,5 @@
 import "./SignIn.css";
-import bg from "../../pages/images/carosel 4.jpg";
+// import bg from "../../pages/images/carosel 4.jpg";
 // import Layout from "../../Shared/Layout";
 import React, { useState } from "react";
 import Header from "../../Shared/Header";
@@ -8,21 +8,24 @@ import { Link } from "react-router-dom";
 const SignUpRoleSelect = () => {
   const currentYear = new Date().getFullYear();
 
-    const { userRole, setUserRole } = useState("");
-    
-    
+  const [userRole, setUserRole] = useState("");
 
+  const handleSelection = (event) => {
+    let selectValue;
+    selectValue = event.target.value;
+    setUserRole(selectValue);
+  };
 
   return (
     <div>
       <Header />
-      <div class="col-md-12">
-        <img
+      <div class="col-md-12" id="faded_back">
+        {/* <img
           src={bg}
           alt=""
           id="acc_image"
           style={{ minHeight: "100vh", position: "fixed" }}
-        />
+        /> */}
         <div class="row">
           <div
             class="col-md-6"
@@ -64,6 +67,7 @@ const SignUpRoleSelect = () => {
                 className="form-select form-select-lg mb-3"
                 aria-label="Large select example"
                 name="role"
+                onChange={handleSelection}
               >
                 <option selected>Select A Role:</option>
                 <option value="client">Client User</option>
@@ -74,7 +78,7 @@ const SignUpRoleSelect = () => {
                   <div>
                     {" "}
                     <div class="d-grid gap-2 col-6 mx-auto">
-                      <Link>
+                      <Link to={`/user/account/register/${userRole}`}>
                         <button
                           className="btn btn-primary"
                           type="button"
@@ -116,13 +120,13 @@ const SignUpRoleSelect = () => {
               </div>
             </form>
           </div>
-        </div>
-      </div>
-      <div className="row" style={{ marginTop: "5%" }}>
-        <hr />
-        <div id="copyright" style={{ textAlign: "center" }}>
-          {" "}
-          ©️ {currentYear} Dosh Pharmaceauticals. All rights served.
+          <div className="row" style={{ marginTop: "5%" }}>
+            <hr id="whitened_hr" />
+            <div id="copyright" style={{ textAlign: "center" }}>
+              {" "}
+              ©️ {currentYear} Dosh Pharmaceauticals. All rights served.
+            </div>
+          </div>
         </div>
       </div>
     </div>

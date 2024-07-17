@@ -5,7 +5,7 @@ header {
 }
 
 footer {
-  margin-top: 5%;
+  /* margin-top: 5%; */
   padding-top: 0px;
   position: relative;
   bottom: 0;
@@ -149,7 +149,7 @@ footer {
   transition: all 0.4s;
 }
 
-.txt2:hover{
+.txt2:hover {
   color: #0056b3;
   font-size: 18px;
 }
@@ -161,3 +161,8 @@ footer {
   padding-left: 20px;
   margin-top: 0px;
 } */
+
+#faded_back {
+  z-index: -2;
+  background-color: #dddfe0;
+}

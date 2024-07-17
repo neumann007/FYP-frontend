@@ -91,7 +91,7 @@ header {
 
 #baby {
   position: absolute;
-  margin-top: -22%;
+  margin-top: -27%;
   min-height: 350px;
   background-color: #080561d7;
   width: 40%;
@@ -102,7 +102,7 @@ header {
 
 #baby1 {
   position: absolute;
-  margin-top: -22%;
+  margin-top: -27%;
   min-height: 350px;
   background-color: #080561d7;
   width: 40%;
@@ -164,7 +164,7 @@ header {
 }
 
 footer {
-  margin-top: 10%;
+  /* margin-top: 5%; */
   height: 420px;
   width: 100%;
   background-color: #080561;
@@ -434,7 +434,7 @@ footer {
 #address_line1,
 #address_line2 {
   width: 80%;
-  height: 50px;
+  height: 40px;
   border-radius: 8px;
   padding-left: 20px;
   border: 1px solid #8d8888;
@@ -454,7 +454,7 @@ footer {
 #country,
 #full_name {
   width: 93%;
-  height: 50px;
+  height: 40px;
   border-radius: 8px;
   padding-left: 20px;
   border: 1px solid #8d8888;
@@ -687,4 +687,8 @@ footer {
   z-index: -1;
   /* filter: blur(20px); */
   background: linear-gradient(-135deg, #c850c0, #4158d0);
+}
+
+#whitened_hr{
+  color: white;
 }

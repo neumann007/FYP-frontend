@@ -5,7 +5,7 @@ import React from "react";
 const Header = () => {
   return (
     <div className="col-md-12">
-      <div className="row">
+      <div className="row ">
         <div className="col-md-3">
           {" "}
           <a href="/">
