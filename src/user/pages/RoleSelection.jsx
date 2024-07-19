@@ -1,6 +1,5 @@
 import "./SignIn.css";
-// import bg from "../../pages/images/carosel 4.jpg";
-// import Layout from "../../Shared/Layout";
+
 import React, { useState } from "react";
 import Header from "../../Shared/Header";
 import { Link } from "react-router-dom";

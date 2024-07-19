@@ -3,6 +3,7 @@ import React from "react";
 import Layout from "../../Shared/Layout";
 import ProductCard from "../components/ProductCard";
 import PriceSlider from "../components/PriceSlider";
+import drugs from "../drugs";
 
 const ProductsPage = () => {
   return (
@@ -241,20 +242,9 @@ const ProductsPage = () => {
                 </div>
                 <div className="col-md-12">
                   <div className="row">
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
-                    <ProductCard></ProductCard>
+                    {drugs.map(drug => (
+                      <ProductCard title={ drug.name} img={drug.imageUrl} key={drug.id} price={drug.price} id={drug.id} />
+                    ))}
                   </div>
                 </div>
               </div>

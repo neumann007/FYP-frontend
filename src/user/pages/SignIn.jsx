@@ -1,6 +1,5 @@
 import "./SignIn.css";
-// import bg from "../../pages/images/carosel 4.jpg";
-// import Layout from "../../Shared/Layout";
+
 import React from "react";
 import Header from "../../Shared/Header";
 
@@ -11,12 +10,6 @@ const SignIn = () => {
     <div>
       <Header />
       <div class="col-md-12" id="faded_back">
-        {/* <img
-          src={bg}
-          alt=""
-          id="acc_image"
-          style={{ minHeight: "100vh", position: "fixed" }}
-        /> */}
         <div class="row">
           <div
             class="col-md-6"
