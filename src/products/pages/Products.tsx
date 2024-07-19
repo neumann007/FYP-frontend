@@ -243,7 +243,7 @@ const ProductsPage = () => {
                 <div className="col-md-12">
                   <div className="row">
                     {drugs.map(drug => (
-                      <ProductCard title={ drug.name} img={drug.imageUrl} key={drug.id} price={drug.price} id={drug.id} />
+                      <ProductCard title={drug.name} img={drug.imageUrl} key={drug.id} price={drug.price} id={drug.id} mfg={drug.brand} />
                     ))}
                   </div>
                 </div>

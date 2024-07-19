@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../../Shared/Layout";
-import { useParams } from "react-router-dom";
+import { redirect, useParams } from "react-router-dom";
 import drugs from "../drugs";
 
 import del_icon from "../images/icons8-delivery-24.png";
@@ -29,7 +29,7 @@ const ProductsDetails = () => {
     setHoverState(false);
   };
 
-  //For text Color switching for Add to Cart Button ............
+  //For text Color switching for Order Now Button .................................
   const [isHoverOrder, setHoverOrder] = useState(false);
 
   const handleHoverOrderMse = () => {
@@ -40,20 +40,22 @@ const ProductsDetails = () => {
     setHoverOrder(false);
   };
 
-  //Controlling the Quantity to be added to the cart
+  //Controlling the Quantity to be added to the cart ...............................
   const [qtn, setQtn] = useState(1);
   const handleInc = () => {
     setQtn(qtn + 1);
   };
 
   const handleDec = () => {
-    setQtn(qtn - 1);
+    if (qtn > 0) {
+      setQtn(qtn - 1);
+    }
   };
 
-  if (qtn > 1) {
-    const decButton = document.getElementById("dec");
-    decButton.setAttribute("disabled", true);
-  }
+  //To handle clicking actions for the order now button .........................
+  const handleCheckOut = () => {
+    redirect("/order/checkout");
+  };
 
   return (
     <Layout>
@@ -151,100 +153,108 @@ const ProductsDetails = () => {
                     <div className="row">
                       <div style={{ fontWeight: "700" }}> Quantity :</div>
                     </div>
-                    <div id="quantity_space">
-                      <div className="row" id="numD">
-                        {" "}
-                        <div className="col-md-4">
-                          <button id="inc" onClick={handleInc}>
-                            {" "}
-                            +{" "}
-                          </button>
-                        </div>
-                        <div className="col-md-3" id="num">
-                          <h5
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              height: "40px",
-                              marginTop: ".15rem",
-                            }}
-                          >
-                            {qtn}
-                          </h5>
-                        </div>{" "}
-                        <div className="col-md-4" style={{ paddingLeft: "0" }}>
-                          <button id="dec" onClick={handleDec}>
-                            {" "}
-                            -{" "}
-                          </button>
-                        </div>
+                    <div className="row" id="quantity_space">
+                      {" "}
+                      <div
+                        id="numD"
+                        className="col-md-4"
+                        style={{ paddingRight: "0", paddingLeft: "0" }}
+                      >
+                        <button id="inc" onClick={handleInc}>
+                          {" "}
+                          +{" "}
+                        </button>
+                      </div>
+                      <div className="col-md-3" id="num">
+                        <h5
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: "40px",
+                            marginTop: ".15rem",
+                          }}
+                        >
+                          {qtn}
+                        </h5>
+                      </div>{" "}
+                      <div
+                        id="numD"
+                        className="col-md-4"
+                        style={{ paddingRight: "0", paddingLeft: "0" }}
+                      >
+                        <button id="dec" onClick={handleDec}>
+                          {" "}
+                          -{" "}
+                        </button>
                       </div>
                     </div>
                   </div>
-                  <div className="row" style={{ marginTop: "30px" }}>
-                    <div className="col-md-5">
-                      <div
-                        id="cart"
-                        name="add_cart"
-                        onMouseOver={handleHoverMse}
-                        onMouseOut={handleMseOut}
+                </div>
+
+                <div className="row" style={{ marginTop: "30px" }}>
+                  <div className="col-md-5">
+                    <div
+                      id="cart"
+                      name="add_cart"
+                      onMouseOver={handleHoverMse}
+                      onMouseOut={handleMseOut}
+                      onMouseDown={handleMseOut}
+                    >
+                      {" "}
+                      <span
+                        style={isHover ? btnTextBlue : btnTextWhite}
+                        id="add_to_cart"
                       >
                         {" "}
-                        <a
-                          href="cart.html"
-                          style={isHover ? btnTextBlue : btnTextWhite}
-                          id="add_to_cart"
-                        >
-                          {" "}
-                          Add to Cart{" "}
-                          <span>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-cart-check-fill"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708" />
-                            </svg>
-                          </span>{" "}
-                        </a>{" "}
-                      </div>
+                        Add to Cart{" "}
+                        <span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-cart-check-fill"
+                            viewBox="0 0 16 16"
+                          >
+                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708" />
+                          </svg>
+                        </span>{" "}
+                      </span>{" "}
                     </div>
-                    <div className="col-md-5">
-                      <div
-                        id="cart"
-                        name="order_now"
-                        onMouseOver={handleHoverOrderMse}
-                        onMouseOut={handleHoverOrderMseOut}
+                  </div>
+                  <div className="col-md-5">
+                    <div
+                      id="cart"
+                      name="order_now"
+                      onMouseOver={handleHoverOrderMse}
+                      onMouseOut={handleHoverOrderMseOut}
+                      onMouseDown={handleHoverOrderMseOut}
+                      onClick={handleCheckOut}
+                    >
+                      {" "}
+                      <span
+                        id="add_to_cart"
+                        style={isHoverOrder ? btnTextBlue : btnTextWhite}
                       >
                         {" "}
-                        <a
-                          href="cart.html"
-                          id="add_to_cart"
-                          style={isHoverOrder ? btnTextBlue : btnTextWhite}
-                        >
-                          {" "}
-                          Order Now{" "}
-                          <span>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-bag-check-fill"
-                              viewBox="0 0 16 16"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0m-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"
-                              />
-                            </svg>
-                          </span>{" "}
-                        </a>{" "}
-                      </div>
+                        Order Now{" "}
+                        <span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-bag-check-fill"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0m-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"
+                            />
+                          </svg>
+                        </span>{" "}
+                      </span>{" "}
                     </div>
                   </div>
                 </div>
@@ -314,7 +324,10 @@ const ProductsDetails = () => {
               <div className="row">
                 {drugs
                   .filter((d) => {
-                    return selectedProduct.category === d.category;
+                    return (
+                      selectedProduct.category === d.category &&
+                      d.id !== selectedProduct.id
+                    );
                   })
                   .map((drug) => (
                     <ProductCard
@@ -323,6 +336,7 @@ const ProductsDetails = () => {
                       key={drug.id}
                       price={drug.price}
                       id={drug.id}
+                      mfg={drug.brand}
                     />
                   ))}
               </div>

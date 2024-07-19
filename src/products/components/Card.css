@@ -18,5 +18,17 @@
 
 #card_card:hover {
   transform: translateY(-5px);
+  box-shadow: var(--bs-box-shadow) !important;
 }
 
+#pro_page_add{
+  background-color: #080561;
+  border-radius: 5px;
+  color: #fff;
+}
+
+#pro_page_add:hover{
+  background-color: #fff;
+  color: #080561;
+  border: 1px solid #080561;
+}

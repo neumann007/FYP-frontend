@@ -10,6 +10,8 @@ import ProductsDetails from "./products/pages/ProductDetails";
 import SignUpRoleSelect from "./user/pages/RoleSelection.jsx";
 import StoreRegister from "./user/pages/StoreRegister.tsx";
 import AddProduct from "./products/pages/AddProduct.tsx";
+import CartPage from "./orders/pages/Cart.tsx";
+import CheckOut from "./orders/pages/CheckOut.tsx";
 
 const App = () => {
   return (
@@ -30,8 +32,13 @@ const App = () => {
           element={<StoreRegister />}
         ></Route>
         <Route path="/products/store" element={<ProductsPage />}></Route>
-        <Route path="/products/:pid/details" element={<ProductsDetails />}></Route>
+        <Route
+          path="/products/:pid/details"
+          element={<ProductsDetails />}
+        ></Route>
         <Route path="/products/new" element={<AddProduct />}></Route>
+        <Route path="/user/cart" element={<CartPage />}></Route>
+        <Route path="/order/checkout" element={<CheckOut />}></Route>
       </Routes>
     </Router>
   );

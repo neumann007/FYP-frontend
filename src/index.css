@@ -608,8 +608,8 @@ footer {
 }
 
 #quantity_space {
-  height: 50px;
-  width: 147px;
+  /* height: 55px; */
+  width: 99%;
   background-color: #fff;
   margin-top: 10px;
   border-radius: 8px;
