@@ -587,7 +587,7 @@ footer {
   background-color: #080561;
   text-align: center;
   /* color: #fff; */
-  padding-top: 10px;
+  padding-top: 5px;
   /* margin-top: 33px; */
   border-radius: 8px;
 }
@@ -597,6 +597,7 @@ footer {
   border: 2px solid #080561;
   color: #080561;
   cursor: pointer;
+  margin-top: 5px;
 }
 
 #cart a:hover {

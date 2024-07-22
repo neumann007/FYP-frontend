@@ -107,7 +107,7 @@ const HomePage = () => {
                       {" "}
                       Are you ready to spoil your fluffly comparison? Don't{" "}
                       <br />
-                      fret-we've got your pet pampering needs
+                      fret- we've got your pet pampering needs
                       <br />
                       covered,from toys and leashes to tasty treats .{" "}
                     </div>

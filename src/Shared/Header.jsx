@@ -61,7 +61,7 @@ const Header = () => {
                 </a>
               </li>
               <li id="nav_3">
-                <a href="cart.html">
+                <a href="/user/cart">
                   {" "}
                   <span>
                     <svg

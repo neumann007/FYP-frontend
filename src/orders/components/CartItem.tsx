@@ -9,7 +9,7 @@ const CartItem = () => {
   };
 
   const handleDec = () => {
-    if (qtn > 0) {
+    if (qtn > 1) {
       setQtn(qtn - 1);
     }
   };

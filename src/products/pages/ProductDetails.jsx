@@ -47,7 +47,7 @@ const ProductsDetails = () => {
   };
 
   const handleDec = () => {
-    if (qtn > 0) {
+    if (qtn > 1) {
       setQtn(qtn - 1);
     }
   };
@@ -149,12 +149,15 @@ const ProductsDetails = () => {
                 </div>
                 <br />
                 <div className="row">
+                  <div className="row">
+                    <div style={{ fontWeight: "700" }}> Quantity :</div>
+                  </div>
                   <div className="col-md-4">
-                    <div className="row">
-                      <div style={{ fontWeight: "700" }}> Quantity :</div>
-                    </div>
-                    <div className="row" id="quantity_space">
-                      {" "}
+                    <div
+                      className="row"
+                      id="quantity_space"
+                      style={{ marginLeft: "1%" }}
+                    >
                       <div
                         id="numD"
                         className="col-md-4"
@@ -194,7 +197,7 @@ const ProductsDetails = () => {
 
                 <div className="row" style={{ marginTop: "30px" }}>
                   <div className="col-md-5">
-                    <div
+                    <button
                       id="cart"
                       name="add_cart"
                       onMouseOver={handleHoverMse}
@@ -221,10 +224,10 @@ const ProductsDetails = () => {
                           </svg>
                         </span>{" "}
                       </span>{" "}
-                    </div>
+                    </button>
                   </div>
                   <div className="col-md-5">
-                    <div
+                    <button
                       id="cart"
                       name="order_now"
                       onMouseOver={handleHoverOrderMse}
@@ -255,7 +258,7 @@ const ProductsDetails = () => {
                           </svg>
                         </span>{" "}
                       </span>{" "}
-                    </div>
+                    </button>
                   </div>
                 </div>
 

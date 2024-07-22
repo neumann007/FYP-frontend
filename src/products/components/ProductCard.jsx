@@ -10,13 +10,17 @@ const ProductCard = (props) => {
         to={`/products/${props.id}/details`}
         style={{ textDecoration: "none" }}
       >
-        <div className="card" id="card_card" style={{marginTop: "2%"}}>
+        <div className="card" id="card_card" style={{ marginTop: "2%" }}>
           <div className="card-img">
             <div id="pro_img_cover">
               <img id="cards_image" src={props.img} alt="product_image" />
             </div>
           </div>
-          <div className="card-body" id="card_deets">
+          <div
+            className="card-body"
+            id="card_deets"
+            style={{ borderTop: "2px solid #eee" }}
+          >
             <div className="card-title">
               <div id="item_name">
                 {" "}
@@ -34,9 +38,16 @@ const ProductCard = (props) => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-6" style={{display: "flex", justifyContent: "right"}}>
-                <button id="pro_page_add" type="button" style={{ fontSize: "9pt", marginTop: "5%" }}>
-                 {"    "}Buy Now{"    "}
+              <div
+                className="col-md-6"
+                style={{ display: "flex", justifyContent: "right" }}
+              >
+                <button
+                  id="pro_page_add"
+                  type="button"
+                  style={{ fontSize: "9pt", marginTop: "5%" }}
+                >
+                  {"    "}Buy Now{"    "}
                 </button>
               </div>
             </div>

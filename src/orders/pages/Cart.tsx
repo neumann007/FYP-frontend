@@ -93,12 +93,13 @@ const CartPage = () => {
 
                   <div className="row" style={{ marginTop: "30px" }}>
                     <div className="col-md-11">
-                      <div
+                      <button
                         id="cart"
                         onMouseOver={handleHoverMse}
                         onMouseOut={handleMseOut}
                         onMouseDown={handleMseOut}
                         onClick={handleCheckOut}
+                        style={{height: "45px"}}
                       >
                         {" "}
                         <span
@@ -123,7 +124,7 @@ const CartPage = () => {
                             </svg>
                           </span>{" "}
                         </span>{" "}
-                      </div>
+                      </button>
                     </div>
                   </div>
 

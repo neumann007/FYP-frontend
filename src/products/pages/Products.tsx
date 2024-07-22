@@ -189,7 +189,7 @@ const ProductsPage = () => {
                         <div className="row">
                           <div
                             className="col-md-11"
-                            style={{ marginLeft: "12px" }}
+                            style={{ marginLeft: "12px", padding: "0" }}
                           >
                             <PriceSlider />
                           </div>
