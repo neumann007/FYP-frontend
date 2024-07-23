@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 
-// import "./Register.css";
-// import Header from "../../Shared/Header";
 
-// import bg from "../../pages/images/carosel 4.jpg";
 import cities from "./Cities";
 import DatePicker from "./DatePicker.tsx";
 

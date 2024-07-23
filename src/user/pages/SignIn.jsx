@@ -1,10 +1,73 @@
-import "./SignIn.css";
+import React, { useCallback, useReducer } from "react";
 
-import React from "react";
-import Header from "../../Shared/Header";
+import "./SignIn.css";
+import Header from "../../Shared/components/Header";
+import Input from "../../Shared/components/FormElements/Input";
+import {
+  VALIDATOR_MINLENGTH,
+  VALIDATOR_REQUIRE,
+} from "../../Shared/util/validators";
+import Button from "../../Shared/components/FormElements/Button";
+
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case "INPUT_CHANGE":
+      let formIsValid = true;
+      for (const inputId in state.inputs) {
+        if (inputId === action.inputId) {
+          formIsValid = formIsValid && action.isValid;
+        } else {
+          formIsValid = formIsValid && state.inputs[inputId].isValid;
+        }
+      }
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          [action.inputId]: { value: action.value, isValid: action.isValid },
+        },
+        isValid: formIsValid,
+      };
+
+    default:
+      return state;
+  }
+};
 
 const SignIn = () => {
   const currentYear = new Date().getFullYear();
+
+  const [formState, dispatch] = useReducer(formReducer, {
+    inputs: {
+      email: {
+        value: "",
+        isValid: false,
+      },
+      password: {
+        value: "",
+        isValid: false,
+      },
+    },
+    isValid: false,
+  });
+
+  const inputHandler = useCallback(
+    (id, value, isValid) => {
+      dispatch({
+        type: "INPUT_CHANGE",
+        value: value,
+        isValid: isValid,
+        inputId: id,
+      });
+    },
+    [dispatch]
+  );
+
+  const signInSubmitHandler = (event) => {
+    event.preventDefault();
+
+    console.log(formState.inputs);
+  };
 
   return (
     <div>
@@ -21,12 +84,7 @@ const SignIn = () => {
               overflow: "visible",
             }}
           >
-            <form
-              id="account_container"
-              action=""
-              method="POST"
-              style={{ marginLeft: "50px" }}
-            >
+            <div id="account_container">
               <div
                 style={{
                   fontSize: "35pt",
@@ -39,77 +97,59 @@ const SignIn = () => {
                 {" "}
                 Sign In{" "}
               </div>
-
-              <div id="email_input">
-                <label for="email"> Email Address </label> <br />
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="example@gmail.com"
-                />
-              </div>
-
-              <div id="password_input">
-                <label for="password"> Password </label> <br />
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder=""
-                />
-              </div>
               <div className="row">
-                <div>
-                  <label>Select User Role:</label>
-                </div>
-                <div
-                  className="form-check form-check-inline col-md-4"
-                  style={{ marginLeft: "15px" }}
+                <select
+                  className="form-select form-select-lg mb-3"
+                  aria-label="Large select example"
+                  name="role"
+                  style={{ width: "95%", marginLeft: "2%", marginTop: "1%" }}
                 >
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="inlineRadioOptions"
-                    id="inlineRadio1"
-                    value="option1"
-                    style={{ marginLeft: "-10px" }}
-                    checked
-                  />
-                  <label
-                    className="form-check-label"
-                    for="inlineRadio1"
-                    style={{ marginLeft: "5px" }}
-                  >
-                    Client User
-                  </label>
-                </div>
-                <div class="form-check form-check-inline col-md-6">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="inlineRadioOptions"
-                    id="inlineRadio2"
-                    value="option2"
-                    style={{ marginLeft: "-10px" }}
-                  />
-                  <label
-                    class="form-check-label"
-                    for="inlineRadio2"
-                    style={{ marginLeft: "5px" }}
-                  >
-                    Pharmacy / Distributor
-                  </label>
-                </div>
+                  <option selected>Select A Role:</option>
+                  <option value="client">Client User</option>
+                  <option value="store">Distributor</option>
+                </select>
               </div>
-              <div class="col-md-12" style={{ marginTop: "2%" }}>
-                <div class="col-md-6" style={{ marginLeft: "25%" }}>
-                  <div>
-                    {" "}
-                    <input type="submit" value="Sign In" id="input_submit" />
+
+              <form onSubmit={signInSubmitHandler}>
+                <div id="email_input">
+                  <Input
+                    id="email"
+                    element="input"
+                    type="text"
+                    label="Email Address"
+                    validators={[VALIDATOR_REQUIRE()]}
+                    errorText="Please enter a valid email"
+                    onInput={inputHandler}
+                  />
+                </div>
+
+                <div id="password_input">
+                  <Input
+                    id="password"
+                    element="input"
+                    type="text"
+                    label="Password"
+                    validators={[VALIDATOR_MINLENGTH(6)]}
+                    errorText="Password must be 6 characters or more"
+                    onInput={inputHandler}
+                  />
+                </div>
+
+                <div class="row" style={{ marginTop: "2%" }}>
+                  <div
+                    style={{
+                      marginTop: "2px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button type="submit" disabled={!formState.isValid}>
+                      Submit
+                    </Button>
                   </div>
                 </div>
-              </div>
+              </form>
               <br />
 
               <div className="col-md-12">
@@ -136,11 +176,11 @@ const SignIn = () => {
                   </a>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
         <div className="row" style={{ marginTop: "5%" }}></div>
-        <hr id="whitened_hr"/>
+        <hr id="whitened_hr" />
         <div id="copyright" style={{ textAlign: "center" }}>
           {" "}
           ©️ {currentYear} Dosh Pharmaceauticals. All rights served.

@@ -1,5 +1,5 @@
 import "./Footer.css";
-import logo from "./images/dosh white.png";
+import logo from "../images/dosh white.png";
 import React from "react";
 
 const Footer = () => {

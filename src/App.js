@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import "./Shared/Footer.css";
 import HomePage from "./pages/Home";
 import SignIn from "./user/pages/SignIn";
 import ClientRegister from "./user/pages/ClientRegister.tsx";
