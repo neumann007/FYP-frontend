@@ -1,44 +1,20 @@
-import React, { useCallback, useReducer } from "react";
-
 import "./SignIn.css";
+import { useForm } from "../../Shared/hooks/form-hook";
 import Header from "../../Shared/components/Header";
 import Input from "../../Shared/components/FormElements/Input";
 import {
+  VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "../../Shared/util/validators";
 import Button from "../../Shared/components/FormElements/Button";
-
-const formReducer = (state, action) => {
-  switch (action.type) {
-    case "INPUT_CHANGE":
-      let formIsValid = true;
-      for (const inputId in state.inputs) {
-        if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid;
-        } else {
-          formIsValid = formIsValid && state.inputs[inputId].isValid;
-        }
-      }
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.inputId]: { value: action.value, isValid: action.isValid },
-        },
-        isValid: formIsValid,
-      };
-
-    default:
-      return state;
-  }
-};
+import { useContext } from "react";
+import { AuthContext } from "../../Shared/context/auth-context";
 
 const SignIn = () => {
   const currentYear = new Date().getFullYear();
-
-  const [formState, dispatch] = useReducer(formReducer, {
-    inputs: {
+  const [formState, inputHandler] = useForm(
+    {
       email: {
         value: "",
         isValid: false,
@@ -48,25 +24,16 @@ const SignIn = () => {
         isValid: false,
       },
     },
-    isValid: false,
-  });
-
-  const inputHandler = useCallback(
-    (id, value, isValid) => {
-      dispatch({
-        type: "INPUT_CHANGE",
-        value: value,
-        isValid: isValid,
-        inputId: id,
-      });
-    },
-    [dispatch]
+    false
   );
+
+  const auth = useContext(AuthContext);
 
   const signInSubmitHandler = (event) => {
     event.preventDefault();
 
     console.log(formState.inputs);
+    auth.login();
   };
 
   return (
@@ -115,19 +82,19 @@ const SignIn = () => {
                   <Input
                     id="email"
                     element="input"
-                    type="text"
+                    type="email"
                     label="Email Address"
-                    validators={[VALIDATOR_REQUIRE()]}
+                    validators={[VALIDATOR_EMAIL()]}
                     errorText="Please enter a valid email"
                     onInput={inputHandler}
                   />
                 </div>
 
-                <div id="password_input">
+                <div id="password_input" style={{ marginTop: "3%" }}>
                   <Input
                     id="password"
                     element="input"
-                    type="text"
+                    type="password"
                     label="Password"
                     validators={[VALIDATOR_MINLENGTH(6)]}
                     errorText="Password must be 6 characters or more"
@@ -135,7 +102,7 @@ const SignIn = () => {
                   />
                 </div>
 
-                <div class="row" style={{ marginTop: "2%" }}>
+                <div className="row" style={{ marginTop: "2%" }}>
                   <div
                     style={{
                       marginTop: "2px",
@@ -145,7 +112,7 @@ const SignIn = () => {
                     }}
                   >
                     <Button type="submit" disabled={!formState.isValid}>
-                      Submit
+                      Log In
                     </Button>
                   </div>
                 </div>
@@ -179,7 +146,7 @@ const SignIn = () => {
             </div>
           </div>
         </div>
-        <div className="row" style={{ marginTop: "5%" }}></div>
+        <div className="row" style={{ marginTop: "1%" }}></div>
         <hr id="whitened_hr" />
         <div id="copyright" style={{ textAlign: "center" }}>
           {" "}

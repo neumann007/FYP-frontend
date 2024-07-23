@@ -10,7 +10,7 @@ import Button from "../../Shared/components/FormElements/Button";
 import Header from "../../Shared/components/Header";
 import { useForm } from "../../Shared/hooks/form-hook";
 
-const AddProduct = () => {
+const UpdateProduct = () => {
   const currentYear = new Date().getFullYear();
 
   const [formState, inputHandler] = useForm(
@@ -41,7 +41,9 @@ const AddProduct = () => {
       },
     },
     false
-  );
+    );
+    
+    
 
   return (
     <div>
@@ -250,4 +252,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;

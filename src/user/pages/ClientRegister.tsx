@@ -1,15 +1,62 @@
 import React, { useState } from "react";
 
-
 import cities from "./Cities";
-import DatePicker from "./DatePicker.tsx";
+import Input from "../../Shared/components/FormElements/Input.js";
+import {
+  VALIDATOR_EMAIL,
+  VALIDATOR_MINLENGTH,
+  VALIDATOR_REQUIRE,
+} from "../../Shared/util/validators.js";
+import { useForm } from "../../Shared/hooks/form-hook.js";
+import Button from "../../Shared/components/FormElements/Button.js";
+import Header from "../../Shared/components/Header.jsx";
 
 const ClientRegister = () => {
   const currentYear = new Date().getFullYear();
 
+  const [formState, inputHandler] = useForm(
+    {
+      fName: {
+        value: "",
+        isValid: false,
+      },
+      lName: {
+        value: "",
+        isValid: false,
+      },
+      email: {
+        value: "",
+        isValid: false,
+      },
+      address: {
+        value: "",
+        isValid: false,
+      },
+      mobileNumber: {
+        value: "",
+        isValid: false,
+      },
+      newPassword: {
+        value: "",
+        isValid: false,
+      },
+      birthday: {
+        value: "",
+        isValid: false,
+      },
+    },
+    false
+  );
+
+  const [showOptions, setShow] = useState(false);
+
+  const handleTestChange = (event) => {
+    setShow(!showOptions);
+  };
+
   return (
     <div>
-      {/* <Header /> */}
+      <Header />
       <div className="col-md-12" id="faded_back">
         <div
           className="container"
@@ -63,254 +110,227 @@ const ClientRegister = () => {
                   </div>
                 </div>
               </div>
-              <div className="row">
+              <div className="row" style={{ marginLeft: "1%" }}>
                 <form action="">
-                  <div className="col-md-12" style={{ marginLeft: "10%" }}>
+                  <div className="row">
                     <div className="row">
-                      <div className="col-md-5">
-                        <label htmlFor="firstName">
-                          {" "}
-                          First Name{" "}
-                          <span style={{ fontSize: "10pt", color: "red" }}>
-                            *
-                          </span>
-                        </label>
-                        <br />
-                        <input
+                      <div className="col-md-6">
+                        <Input
+                          id="fName"
+                          element="input"
                           type="text"
-                          name="firstName"
-                          id="full_name"
-                          placeholder="Kweku"
+                          label="First Name"
+                          validators={[VALIDATOR_REQUIRE()]}
+                          errorText="Please enter a valid email"
+                          onInput={inputHandler}
                         />
                       </div>
-                      <div className="col-md-5">
-                        <label htmlFor="lastNname">
-                          {" "}
-                          Last Name{" "}
-                          <span style={{ fontSize: "10pt", color: "red" }}>
-                            *
-                          </span>
-                        </label>
-                        <br />
-                        <input
+                      <div className="col-md-6">
+                        <Input
+                          id="lName"
+                          element="input"
                           type="text"
-                          name="lastName"
-                          id="full_name"
-                          placeholder="Minta"
+                          label="Last Name"
+                          validators={[VALIDATOR_REQUIRE()]}
+                          errorText="Please enter a valid email"
+                          onInput={inputHandler}
                         />
                       </div>
                     </div>
-                    <div id="email_add">
-                      <label htmlFor="email">
-                        {" "}
-                        Email Address{" "}
-                        <span style={{ fontSize: "10pt", color: "red" }}>
-                          *
-                        </span>
-                      </label>{" "}
-                      <br />
-                      <input
-                        type="email"
-                        name="email"
-                        id="signup_email"
-                        placeholder="kwekuminta19@email.com"
-                      />
+                    <div className="row" style={{ marginTop: "3%" }}>
+                      <div className="col-md-6">
+                        <Input
+                          id="email"
+                          element="input"
+                          type="email"
+                          label="Email Address"
+                          validators={[VALIDATOR_EMAIL()]}
+                          errorText="Please enter a valid email"
+                          onInput={inputHandler}
+                        />
+                      </div>
+                      <div className="col-md-6">
+                        <Input
+                          id="newPassword"
+                          element="input"
+                          type="password"
+                          label="New Password"
+                          validators={[VALIDATOR_MINLENGTH(5)]}
+                          errorText="Password must be 6 characters or more"
+                          onInput={inputHandler}
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="col-md-12">
-                    <DatePicker />
-                  </div>
-                  <div className="col-md-12" style={{ marginLeft: "10%" }}>
                     <div className="row">
-                      <div className="col-md-12">
-                        <div className="row">
-                          <div className="col-md-5">
-                            <div>
-                              <label htmlFor="">
-                                {" "}
-                                Region{" "}
-                                <span
-                                  style={{ fontSize: "10pt", color: "red" }}
-                                >
-                                  *
-                                </span>
-                              </label>
-                              <div className="col-md-12">
-                                <select
-                                  className="form-select form-select-lg mb-3"
-                                  style={{ width: "80%" }}
-                                  name="region"
-                                >
-                                  <option value="Greater Accra" selected>
-                                    Greater Accra
-                                  </option>
-                                </select>
-                              </div>
-                              <br />
-                            </div>
-                          </div>
-                          <div className="col-md-5">
-                            <div>
-                              <label htmlFor="">
-                                {" "}
-                                City/Town{" "}
-                                <span
-                                  style={{ fontSize: "10pt", color: "red" }}
-                                >
-                                  *
-                                </span>
-                              </label>
-                              <div className="col-md-12">
-                                <select
-                                  className="form-select form-select-lg mb-3"
-                                  name="city"
-                                  style={{ width: "95%" }}
-                                >
-                                  {cities.map((city) => (
-                                    <option value={city}>{city}</option>
-                                  ))}
-                                </select>
-                              </div>
-                              <br />
-                            </div>
-                          </div>
+                      <div
+                        className="col-md-6"
+                        id="email_add"
+                        style={{ marginBottom: "20px" }}
+                      >
+                        <Input
+                          id="birthday"
+                          element="input"
+                          type="date"
+                          label="Date of Birth "
+                          validators={[VALIDATOR_REQUIRE()]}
+                          errorText="Field Can't be empty"
+                          onInput={inputHandler}
+                        />
+                      </div>
+                      <div className="col-md-6" id="email_add">
+                        <Input
+                          id="mobileNumber"
+                          element="input"
+                          type="tel"
+                          label="Phone Number"
+                          validators={[VALIDATOR_REQUIRE()]}
+                          errorText="Field Can't be empty"
+                          onInput={inputHandler}
+                        />
+                      </div>
+                    </div>
 
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div>
+                          <label htmlFor="">Region</label>
                           <div className="col-md-12">
-                            <div>
-                              <label htmlFor="address">
-                                {" "}
-                                Delivery Address{" "}
-                                <span
-                                  style={{ fontSize: "10pt", color: "red" }}
-                                >
-                                  *
-                                </span>
-                              </label>{" "}
-                              <br />
-                              <input
-                                type="text"
-                                name="address"
-                                id="address_line1"
-                                placeholder=""
-                              />
-                            </div>
-
-                            <div className="row" style={{ marginTop: "20px" }}>
-                              <div className="col-md-12">
-                                <div>
-                                  <label htmlFor="phone_number">
-                                    {" "}
-                                    Phone Number{" "}
-                                    <span
-                                      style={{ fontSize: "10pt", color: "red" }}
-                                    >
-                                      *
-                                    </span>
-                                  </label>{" "}
-                                  <br />
-                                  <input
-                                    type="tel"
-                                    name="phone_number"
-                                    id="phone_number"
-                                    placeholder=""
-                                  />
-                                </div>
-                              </div>
-                              <div
-                                className="col-md-12"
-                                style={{ marginTop: "20px" }}
-                              >
-                                <div className="row">
-                                  <div className="col-md-5">
-                                    <label htmlFor="new_password">
-                                      {" "}
-                                      New Password{" "}
-                                      <span
-                                        style={{
-                                          fontSize: "10pt",
-                                          color: "red",
-                                        }}
-                                      >
-                                        *
-                                      </span>
-                                    </label>{" "}
-                                    <br />
-                                    <input
-                                      type="password"
-                                      name="new_password"
-                                      id="new_password"
-                                    />
-                                  </div>
-
-                                  <div className="col-md-5">
-                                    <label htmlFor="confirm_new_password">
-                                      {" "}
-                                      Confirm New Password
-                                      <span
-                                        style={{
-                                          fontSize: "10pt",
-                                          color: "red",
-                                        }}
-                                      >
-                                        *
-                                      </span>
-                                    </label>{" "}
-                                    <br />
-                                    <input
-                                      type="password"
-                                      name="confirm_new_password"
-                                      id="confirm_new_password"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div>
-                                <input
-                                  type="submit"
-                                  id="create_sub"
-                                  value="Submit"
-                                />
-                              </div>
-                            </div>
+                            <select
+                              className="form-select mb-3"
+                              style={{ width: "95%" }}
+                              name="region"
+                            >
+                              <option value="Greater Accra" selected>
+                                Greater Accra
+                              </option>
+                            </select>
                           </div>
                         </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div>
+                          <label htmlFor=""> City/Town </label>
+                          <div className="col-md-12">
+                            <select
+                              className="form-select mb-3"
+                              name="city"
+                              style={{ width: "95%" }}
+                            >
+                              {cities.map((city) => (
+                                <option value={city}>{city}</option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <Input
+                        id="address"
+                        element="input"
+                        type="text"
+                        label="Delivery Address"
+                        validators={[VALIDATOR_REQUIRE()]}
+                        errorText="Field Can't be empty"
+                        onInput={inputHandler}
+                      />
+                    </div>
+                    <div className="row" style={{ marginTop: "3%" }}>
+                      <h6 style={{ minHeight: "80px" }}>
+                        The Next part of this form is optional because it deals
+                        with sensitive information. Feel free to skip if with
+                        your own discretion. Yet we <b>recommend</b> that you
+                        fill that part also since it helps us tailor the kind of
+                        content we give you on our app service.
+                      </h6>
+                    </div>
+                    <div className="row" style={{ marginTop: "3%" }}>
+                      <h6 style={{ height: "30px" }}>
+                        Have you taken any of the following tests:
+                      </h6>
+                      <div className="col-md-6">
+                        <label htmlFor="test">Test</label>
+                        <div className="col-md-12">
+                          <select
+                            className="form-select mb-3"
+                            onChange={handleTestChange}
+                            style={{ width: "95%" }}
+                            name="test"
+                            id="test"
+                          >
+                            <option selected>Select a Med. Test</option>
+                            <option value="hivTestTaken">H.I.V Test</option>
+                          </select>
+                        </div>
+                      </div>
+                      {showOptions && (
+                        <div className="col-md-6">
+                          <label htmlFor="test">Results</label>
+                          <div className="col-md-12">
+                            <select
+                              className="form-select mb-3"
+                              style={{ width: "95%" }}
+                              name="test"
+                              id="test"
+                            >
+                              <option selected value="negative">
+                                Select a Result
+                              </option>
+                              <option value="negative">Negative</option>
+                              <option value="positive">Positive</option>
+                            </select>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="row" style={{ marginTop: "4%" }}>
+                      <div
+                        style={{
+                          marginTop: "2px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Button type="submit" disabled={!formState.isValid}>
+                          Log In
+                        </Button>
                       </div>
                     </div>
                   </div>
                 </form>
                 <br />
-                <div className="col-md-12">
-                  <div className="row" style={{ marginTop: "5%" }}>
-                    <div className="text-center p-t-136">
-                      <a
-                        className="txt2"
-                        href="/user/account/signin"
-                        style={{
-                          marginTop: "1%",
-                          textAlign: "center",
-                        }}
+
+                <div className="row" style={{ marginTop: "4%" }}>
+                  <div className="text-center p-t-136">
+                    <a
+                      className="txt2"
+                      href="/user/account/signin"
+                      style={{
+                        marginTop: "1%",
+                        textAlign: "center",
+                      }}
+                    >
+                      Click Here To Log In{" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-box-arrow-in-right"
+                        viewBox="0 0 16 16"
                       >
-                        Click Here To Log In{" "}
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          className="bi bi-box-arrow-in-right"
-                          viewBox="0 0 16 16"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"
-                          />
-                          <path
-                            fill-rule="evenodd"
-                            d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
-                          />
-                        </svg>
-                      </a>
-                    </div>
+                        <path
+                          fill-rule="evenodd"
+                          d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
+                        />
+                      </svg>
+                    </a>
                   </div>
                 </div>
               </div>
