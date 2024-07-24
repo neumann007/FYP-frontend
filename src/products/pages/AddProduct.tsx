@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // import "./Register.css";
 import Input from "../../Shared/components/FormElements/Input";
@@ -39,9 +39,21 @@ const AddProduct = () => {
         value: "",
         isValid: false,
       },
+      imageUrl: {
+        value: "",
+        isValid: false,
+      },
     },
     false
   );
+
+  const [isArvStatus, setIsArvStatus] = useState();
+
+  const handleArvSelection = (event) => {
+    let status;
+    status = event.target.value;
+    setIsArvStatus(status);
+  };
 
   return (
     <div>
@@ -50,7 +62,7 @@ const AddProduct = () => {
         <div
           className="container"
           style={{
-            width: "980px",
+            width: "780px",
             background: "#fff",
             borderRadius: "10px",
             paddingBottom: "40px",
@@ -151,6 +163,18 @@ const AddProduct = () => {
                         style={{ width: "95%" }}
                       />
                     </div>
+                    <div className="row" style={{ marginTop: "3%" }}>
+                      <Input
+                        id="imageUrl"
+                        element="input"
+                        type="text"
+                        label="Image Url"
+                        validators={[VALIDATOR_REQUIRE()]}
+                        errorText="Please Do not leave fields empty"
+                        onInput={inputHandler}
+                        style={{ width: "95%" }}
+                      />
+                    </div>
 
                     <div className="row" style={{ marginTop: "3%" }}>
                       <div className="col-md-6">
@@ -189,8 +213,8 @@ const AddProduct = () => {
                           className="form-check-input"
                           type="radio"
                           name="isARV"
-                          id="inlineRadio1"
-                          value="No"
+                          onChange={handleArvSelection}
+                          value="false"
                           defaultChecked
                         />
                         <label
@@ -206,8 +230,8 @@ const AddProduct = () => {
                           className="form-check-input"
                           type="radio"
                           name="isARV"
-                          id="inlineRadio2"
-                          value="Yes"
+                          onChange={handleArvSelection}
+                          value="true"
                         />
                         <label
                           className="form-check-label"

@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import "./Header.css";
 import headerLogo from "../images/Untitled.png";
+import { AuthContext } from "../context/auth-context";
+import Button from "./FormElements/Button";
 
 const Header = () => {
+  const auth = useContext(AuthContext);
+
   return (
     <div className="col-md-12">
       <div className="row ">
@@ -21,7 +25,7 @@ const Header = () => {
             placeholder="Search product by Name, Brand or Category... "
           />
         </div>
-        <div className="col-md-4" id="header_links_left">
+        <div className="col-md-3" id="header_links_left">
           <nav>
             <ul id="header_navs">
               <li id="nav_1">
@@ -101,6 +105,11 @@ const Header = () => {
             </ul>
           </nav>
         </div>
+        {auth.isLoggedIn && (
+          <div className="col-md-2">
+            <Button onClick={auth.logout}>Log Out</Button>
+          </div>
+        )}
       </div>
     </div>
   );

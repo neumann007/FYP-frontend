@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 import "./SignIn.css";
 import Header from "../../Shared/components/Header";
+import Button from "../../Shared/components/FormElements/Button";
 
 const SignUpRoleSelect = () => {
   const currentYear = new Date().getFullYear();
 
-  const [userRole, setUserRole] = useState("");
+  const [userRole, setUserRole] = useState();
 
   const handleSelection = (event) => {
     let selectValue;
@@ -77,15 +77,12 @@ const SignUpRoleSelect = () => {
                   <div>
                     {" "}
                     <div class="d-grid gap-2 col-6 mx-auto">
-                      <Link to={`/user/account/register/${userRole}`}>
-                        <button
-                          className="btn btn-primary"
-                          type="button"
-                          style={{ marginTop: "5px" }}
-                        >
-                          Continue
-                        </button>
-                      </Link>
+                      <Button
+                        to={`/user/account/register/${userRole}`}
+                        disabled={!userRole}
+                      >
+                        Continue
+                      </Button>
                     </div>
                   </div>
                 </div>

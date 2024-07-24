@@ -8,11 +8,11 @@ import {
 
 import HomePage from "./pages/Home";
 import SignIn from "./user/pages/SignIn";
-import ClientRegister from "./user/pages/ClientRegister.tsx";
+import ClientRegister from "./user/pages/ClientRegister.jsx";
 import ProductsPage from "./products/pages/Products.tsx";
 import ProductsDetails from "./products/pages/ProductDetails";
 import SignUpRoleSelect from "./user/pages/RoleSelection.jsx";
-import StoreRegister from "./user/pages/StoreRegister.tsx";
+import StoreRegister from "./user/pages/StoreRegister.jsx";
 import AddProduct from "./products/pages/AddProduct.tsx";
 import CartPage from "./orders/pages/Cart.tsx";
 import CheckOut from "./orders/pages/CheckOut.tsx";
@@ -62,6 +62,16 @@ const App = () => {
           path="/user/account/register/store"
           element={<StoreRegister />}
         ></Route>
+
+        {/* until redirect has been fixed*/}
+        <Route path="/products/store" element={<ProductsPage />}></Route>
+        <Route path="/products/new" element={<AddProduct />}></Route>
+        <Route
+          path="/products/:pid/details"
+          element={<ProductsDetails />}
+        ></Route>
+        <Route path="/user/cart" element={<CartPage />}></Route>
+        <Route path="/order/checkout" element={<CheckOut />}></Route>
       </React.Fragment>
     );
   }

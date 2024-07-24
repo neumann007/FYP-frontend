@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import cities from "./Cities";
 
@@ -11,9 +11,16 @@ import {
 } from "../../Shared/util/validators";
 import Input from "../../Shared/components/FormElements/Input";
 import Button from "../../Shared/components/FormElements/Button";
+import ErrorModal from "../../Shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../Shared/components/UIElements/LoadingSpinner";
+import { AuthContext } from "../../Shared/context/auth-context";
 
 const StoreRegister = () => {
   const currentYear = new Date().getFullYear();
+
+  const auth = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
 
   const [formState, inputHandler] = useForm(
     {
@@ -41,8 +48,54 @@ const StoreRegister = () => {
     false
   );
 
+  const signUpSubmitHandler = async (event) => {
+    event.preventDefault();
+
+    let region = document.getElementById("region");
+    let city = document.getElementById("city");
+
+    try {
+      setIsLoading(true);
+      const response = await fetch("http://localhost:5000/api/store/signup", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          storeName: formState.inputs.fName.value,
+          email: formState.inputs.email.value,
+          password: formState.inputs.newPassword.value,
+          region: region?.nodeValue, //these inputs need checking............
+          city: city?.nodeValue, //these inputs need checking...............
+          storeAddress: formState.inputs.address.value,
+          mobileNumber: formState.inputs.mobileNumber.value,
+        }),
+      });
+
+      const responseData = response.json();
+      if (!response.ok) {
+        throw new Error(responseData.message);
+      }
+
+      console.log(responseData);
+      setIsLoading(false);
+      auth.login();
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      setError(error.message || "Something Went wrong, please try again.");
+    }
+  };
+
+  const errorHandler = () => {
+    setError(null);
+  };
+
   return (
-    <div>
+   <React.Fragment>
+      <ErrorModal error={error} onClear={errorHandler} />
+      <div>
+        {isLoading && <LoadingSpinner asOverlay />}
       <Header />
       <div className="col-md-12" id="faded_back">
         <div
@@ -98,7 +151,7 @@ const StoreRegister = () => {
                 </div>
               </div>
               <div className="row" style={{ marginLeft: "1%" }}>
-                <form action="">
+                <form onSubmit={signUpSubmitHandler}>
                   <div className="row">
                     <div className="row">
                       <Input
@@ -255,7 +308,8 @@ const StoreRegister = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      </React.Fragment>
   );
 };
 
