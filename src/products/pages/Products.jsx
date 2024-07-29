@@ -4,47 +4,35 @@ import "./Products.css";
 import Layout from "../../Shared/Layout";
 import ProductCard from "../components/ProductCard";
 import drugs from "../drugs";
-import ErrorModal from "../../Shared/components/UIElements/ErrorModal";
+// import ErrorModal from "../../Shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../Shared/components/UIElements/LoadingSpinner";
 import NavFilters from "../components/Filters";
+import { useHttpClient } from "../../Shared/hooks/http-hook";
 
 const ProductsPage = () => {
   let drugList;
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
-  const [loadedProducts, setLoadedProducts] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
+  const { loadedProducts, setLoadedProducts } = useState();
 
   useEffect(() => {
-    const sendRequest = async () => {
-      setIsLoading(true);
-
+    const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/products/");
-
-        const responseData = await response.json();
-
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
+        const responseData = await sendRequest(
+          "http://localhost:5000/api/products/"
+        );
 
         setLoadedProducts(responseData.products);
-      } catch (error) {
-        setError(error.message);
-      }
-      setIsLoading(false);
+      } catch (error) {}
     };
-    sendRequest();
-  }, []);
+    fetchProducts();
+  }, [sendRequest, setLoadedProducts]);
 
-  const errorHandler = () => {
-    setError(null);
-  };
+  drugList = drugs;
 
-  drugList = [...drugs, loadedProducts];
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={errorHandler} />
       <div>
         {isLoading && <LoadingSpinner asOverlay />}
         <Layout>
@@ -93,7 +81,7 @@ const ProductsPage = () => {
                     <div className="col-md-12">
                       <div className="row">
                         {!isLoading &&
-                          loadedProducts &&
+                          // loadedProducts &&
                           drugList.map((drug) => (
                             <ProductCard
                               title={drug.name}

@@ -24,9 +24,9 @@ const inputReducer = (state, action) => {
 
 const Input = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: props.value || "",
+    value: props.initialValue || "",
     isTouched: false,
-    isValid: props.valid || false,
+    isValid: props.initialValid || false,
   });
 
   const { id, onInput } = props;
@@ -59,6 +59,7 @@ const Input = (props) => {
         onChange={changeHandler}
         onBlur={touchHandler}
         value={inputState.value}
+        step={props.step}
       />
     ) : (
       <textarea
@@ -75,7 +76,6 @@ const Input = (props) => {
       className={`form-control1 ${
         !inputState.isValid && inputState.isTouched && "form-control--invalid1"
       }`}
-      style={props.style}
     >
       <label htmlFor={props.id}>{props.label}</label>
       {element}

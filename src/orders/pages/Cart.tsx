@@ -4,7 +4,7 @@ import Layout from "../../Shared/Layout";
 import del_icon from "../images/icons8-delivery-24.png";
 import rollb_icon from "../images/icons8-rollback-24.png";
 import CartItem from "../components/CartItem.tsx";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   //Button text Color switching issue .... Very unnecessary for just a text color but who knows .........
@@ -13,6 +13,8 @@ const CartPage = () => {
 
   //For text Color switching for Add to Cart Button ............
   const [isHover, setHoverState] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleHoverMse = () => {
     setHoverState(true);
@@ -23,8 +25,8 @@ const CartPage = () => {
   };
 
   const handleCheckOut = () => {
-    redirect("/order/checkout")
-  }
+    navigate("/order/checkout");
+  };
 
   return (
     <Layout>
@@ -99,7 +101,7 @@ const CartPage = () => {
                         onMouseOut={handleMseOut}
                         onMouseDown={handleMseOut}
                         onClick={handleCheckOut}
-                        style={{height: "45px"}}
+                        style={{ height: "45px" }}
                       >
                         {" "}
                         <span

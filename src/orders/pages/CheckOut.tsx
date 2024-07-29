@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../../Shared/Layout";
-import CartItem from "../components/CartItem.tsx";
+import CartItem from "../components/CartItem";
 import OrderItem from "../components/OrderItem.jsx";
 
 const CheckOut = () => {

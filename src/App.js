@@ -3,37 +3,43 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
 } from "react-router-dom";
 
 import HomePage from "./pages/Home";
 import SignIn from "./user/pages/SignIn";
 import ClientRegister from "./user/pages/ClientRegister.jsx";
-import ProductsPage from "./products/pages/Products.tsx";
+import ProductsPage from "./products/pages/Products.jsx";
 import ProductsDetails from "./products/pages/ProductDetails";
 import SignUpRoleSelect from "./user/pages/RoleSelection.jsx";
 import StoreRegister from "./user/pages/StoreRegister.jsx";
-import AddProduct from "./products/pages/AddProduct.tsx";
+import AddProduct from "./products/pages/AddProduct.jsx";
 import CartPage from "./orders/pages/Cart.tsx";
 import CheckOut from "./orders/pages/CheckOut.tsx";
 import { AuthContext } from "./Shared/context/auth-context.js";
+import UpdateProduct from "./products/pages/UpdateProduct";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState();
+  const [accRole, setAccRole] = useState();
 
-  const login = useCallback(() => {
+  const login = useCallback((uid, accType) => {
     setIsLoggedIn(true);
+    setUserId(uid);
+    setAccRole(accType);
   }, []);
 
   const logout = useCallback(() => {
     setIsLoggedIn(false);
+    setUserId(null);
+    setAccRole(null);
   }, []);
 
   let routes;
 
   if (isLoggedIn) {
     routes = (
-      <React.Fragment>
+      <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/products/store" element={<ProductsPage />}></Route>
         <Route path="/products/new" element={<AddProduct />}></Route>
@@ -43,11 +49,15 @@ const App = () => {
         ></Route>
         <Route path="/user/cart" element={<CartPage />}></Route>
         <Route path="/order/checkout" element={<CheckOut />}></Route>
-      </React.Fragment>
+        <Route
+          path="/counter/:productId/edit"
+          element={<UpdateProduct />}
+        ></Route>
+      </Routes>
     );
   } else {
     routes = (
-      <React.Fragment>
+      <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/user/account/signin" element={<SignIn />}></Route>
         <Route
@@ -62,8 +72,7 @@ const App = () => {
           path="/user/account/register/store"
           element={<StoreRegister />}
         ></Route>
-
-        {/* until redirect has been fixed*/}
+        {/* Temporal routing till i figure out the redirect issue */}
         <Route path="/products/store" element={<ProductsPage />}></Route>
         <Route path="/products/new" element={<AddProduct />}></Route>
         <Route
@@ -72,16 +81,26 @@ const App = () => {
         ></Route>
         <Route path="/user/cart" element={<CartPage />}></Route>
         <Route path="/order/checkout" element={<CheckOut />}></Route>
-      </React.Fragment>
+        <Route
+          path="/counter/:productId/edit"
+          element={<UpdateProduct />}
+        ></Route>
+      </Routes>
     );
   }
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+      value={{
+        isLoggedIn: isLoggedIn,
+        userId: userId,
+        accRole: accRole,
+        login: login,
+        logout: logout,
+      }}
     >
       <Router>
-        <Routes>{routes}</Routes>
+        {routes}
       </Router>
     </AuthContext.Provider>
   );

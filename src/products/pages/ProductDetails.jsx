@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../../Shared/Layout";
-import { redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import drugs from "../drugs";
 
 import del_icon from "../images/icons8-delivery-24.png";
@@ -54,7 +54,7 @@ const ProductsDetails = () => {
 
   //To handle clicking actions for the order now button .........................
   const handleCheckOut = () => {
-    redirect("/order/checkout");
+    // redirect("/order/checkout");
   };
 
   return (

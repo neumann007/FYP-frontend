@@ -9,8 +9,7 @@ import {
 import Button from "../../Shared/components/FormElements/Button";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Shared/context/auth-context";
-import LoadingSpinner from "../../Shared/components/UIElements/LoadingSpinner";
-import ErrorModal from "../../Shared/components/UIElements/ErrorModal";
+import { useHttpClient } from "../../Shared/hooks/http-hook";
 
 const SignIn = () => {
   const currentYear = new Date().getFullYear();
@@ -30,8 +29,7 @@ const SignIn = () => {
 
   const auth = useContext(AuthContext);
   const [userRole, setUserRole] = useState();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const handleRoleSelect = (event) => {
     let role;
@@ -43,188 +41,160 @@ const SignIn = () => {
     event.preventDefault();
 
     try {
-      setIsLoading(true);
       if (userRole === "client") {
-        const response = await fetch("http://localhost:5000/api/users/login", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
+        const responseData = await sendRequest(
+          "http://localhost:4000/api/users/login",
+          "POST",
+          JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
           }),
-        });
+          {
+            "Content-type": "application/json",
+          }
+        );
 
-        const responseData = response.json();
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-
-        console.log(responseData);
-        setIsLoading(false);
-        auth.login();
+        auth.login(responseData.user.id);
       } else if (userRole === "store") {
-        const response = await fetch("http://localhost:5000/api/store/login", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
+        const responseData = await sendRequest(
+          "http://localhost:5000/api/store/login",
+          "POST",
+          JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
           }),
-        });
+          {
+            "Content-type": "application/json",
+          }
+        );
 
-        const responseData = response.json();
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-
-        console.log(responseData);
-        setIsLoading(false);
-        auth.login();
+        auth.login(responseData.user.id, responseData.user.accType);
       }
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-      setError(error.message || "Something Went wrong, please try again.");
-    }
-  };
-
-  const errorHandler = () => {
-    setError(null);
+    } catch (error) {}
   };
 
   return (
-    <React.Fragment>
-      <ErrorModal error={error} onClear={errorHandler} />
-      <div>
-        {isLoading && <LoadingSpinner asOverlay />}
-        <Header />
-        <div class="col-md-12" id="faded_back">
-          <div class="row">
-            <div
-              class="col-md-6"
-              style={{
-                marginLeft: "35%",
-                width: "600px",
-                marginTop: "7%",
-                minHeight: "700px",
-                overflow: "visible",
-              }}
-            >
-              <div id="account_container">
-                <div
-                  style={{
-                    fontSize: "35pt",
-                    fontWeight: "700",
-                    color: "#2b2828",
-                    marginBottom: "20px",
-                    textAlign: "center",
-                  }}
+    <div>
+      <Header />
+      <div className="col-md-12" id="faded_back">
+        <div className="row">
+          <div
+            className="col-md-6"
+            style={{
+              marginLeft: "35%",
+              width: "600px",
+              marginTop: "7%",
+              minHeight: "700px",
+              overflow: "visible",
+            }}
+          >
+            <div id="account_container">
+              <div
+                style={{
+                  fontSize: "35pt",
+                  fontWeight: "700",
+                  color: "#2b2828",
+                  marginBottom: "20px",
+                  textAlign: "center",
+                }}
+              >
+                {" "}
+                Sign In{" "}
+              </div>
+              <div className="row">
+                <select
+                  className="form-select form-select-lg mb-3"
+                  aria-label="Large select example"
+                  onChange={handleRoleSelect}
+                  name="role"
+                  style={{ width: "95%", marginLeft: "2%", marginTop: "1%" }}
                 >
-                  {" "}
-                  Sign In{" "}
+                  <option defaultValue>Select A Role:</option>
+                  <option value="client">Client User</option>
+                  <option value="store">Distributor</option>
+                </select>
+              </div>
+
+              <form onSubmit={signInSubmitHandler}>
+                <div id="email_input">
+                  <Input
+                    id="email"
+                    element="input"
+                    type="email"
+                    label="Email Address"
+                    validators={[VALIDATOR_EMAIL()]}
+                    errorText="Please enter a valid email"
+                    onInput={inputHandler}
+                  />
                 </div>
-                <div className="row">
-                  <select
-                    className="form-select form-select-lg mb-3"
-                    aria-label="Large select example"
-                    onChange={handleRoleSelect}
-                    name="role"
-                    style={{ width: "95%", marginLeft: "2%", marginTop: "1%" }}
+
+                <div id="password_input" style={{ marginTop: "3%" }}>
+                  <Input
+                    id="password"
+                    element="input"
+                    type="password"
+                    label="Password"
+                    validators={[VALIDATOR_MINLENGTH(6)]}
+                    errorText="Password must be 6 characters or more"
+                    onInput={inputHandler}
+                  />
+                </div>
+
+                <div className="row" style={{ marginTop: "2%" }}>
+                  <div
+                    style={{
+                      marginTop: "2px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
                   >
-                    <option selected>Select A Role:</option>
-                    <option value="client">Client User</option>
-                    <option value="store">Distributor</option>
-                  </select>
+                    <Button
+                      type="submit"
+                      disabled={!formState.isValid || !userRole}
+                    >
+                      Log In
+                    </Button>
+                  </div>
                 </div>
+              </form>
+              <br />
 
-                <form onSubmit={signInSubmitHandler}>
-                  <div id="email_input">
-                    <Input
-                      id="email"
-                      element="input"
-                      type="email"
-                      label="Email Address"
-                      validators={[VALIDATOR_EMAIL()]}
-                      errorText="Please enter a valid email"
-                      onInput={inputHandler}
-                    />
-                  </div>
-
-                  <div id="password_input" style={{ marginTop: "3%" }}>
-                    <Input
-                      id="password"
-                      element="input"
-                      type="password"
-                      label="Password"
-                      validators={[VALIDATOR_MINLENGTH(6)]}
-                      errorText="Password must be 6 characters or more"
-                      onInput={inputHandler}
-                    />
-                  </div>
-
-                  <div className="row" style={{ marginTop: "2%" }}>
-                    <div
-                      style={{
-                        marginTop: "2px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
+              <div className="col-md-12">
+                <div className="text-center p-t-136">
+                  <a className="txt2" href="/user/account/register/roleSelect">
+                    Click Here To Create An Account{" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-box-arrow-in-right"
+                      viewBox="0 0 16 16"
                     >
-                      <Button
-                        type="submit"
-                        disabled={!formState.isValid && !userRole}
-                      >
-                        Log In
-                      </Button>
-                    </div>
-                  </div>
-                </form>
-                <br />
-
-                <div className="col-md-12">
-                  <div className="text-center p-t-136">
-                    <a
-                      className="txt2"
-                      href="/user/account/register/roleSelect"
-                    >
-                      Click Here To Create An Account{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        className="bi bi-box-arrow-in-right"
-                        viewBox="0 0 16 16"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"
-                        />
-                        <path
-                          fill-rule="evenodd"
-                          d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
-                        />
-                      </svg>
-                    </a>
-                  </div>
+                      <path
+                        fillRule="evenodd"
+                        d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
+                      />
+                    </svg>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
-          <div className="row" style={{ marginTop: "1%" }}></div>
-          <hr id="whitened_hr" />
-          <div id="copyright" style={{ textAlign: "center" }}>
-            {" "}
-            ©️ {currentYear} Dosh Pharmaceauticals. All rights served.
-          </div>
+        </div>
+        <div className="row" style={{ marginTop: "1%" }}></div>
+        <hr id="whitened_hr" />
+        <div id="copyright" style={{ textAlign: "center" }}>
+          {" "}
+          ©️ {currentYear} Dosh Pharmaceauticals. All rights served.
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 
